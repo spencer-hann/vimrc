@@ -5,6 +5,37 @@ set mouse=a
 set nocompatible              " required
 filetype off                  " required
 
+
+" copied from https://github.com/arusahni/dotfiles/blob/45c6655d46d1f672cc36f4e81c2a674484739ebc/vimrc#L42
+" on Jan 12, 2019
+" checks/installs vundle
+if has('nvim')
+    let s:editor_root=expand("~/.nvim")
+else
+    let s:editor_root=expand("~/.vim")
+endif
+if has("unix")
+    let s:uname = system("uname")
+    let g:python_host_prog='/usr/bin/python'
+    if s:uname == "Darwin\n"
+        let g:python_host_prog='/usr/bin/python'
+    endif
+endif
+
+" Setting up Vundle - the vim plugin bundler
+let vundle_installed=1
+let vundle_readme=s:editor_root . '/bundle/vundle/README.md'
+if !filereadable(vundle_readme)
+    echo "Installing Vundle.."
+    echo ""
+    " silent execute "! mkdir -p ~/." . s:editor_path_name . "/bundle"
+    silent call mkdir(s:editor_root . '/bundle', "p")
+    silent execute "!git clone https://github.com/gmarik/vundle " . s:editor_root . "/bundle/vundle"
+    let vundle_installed=0
+endif
+let &rtp = &rtp . ',' . s:editor_root . '/bundle/vundle/'
+call vundle#rc(s:editor_root . '/bundle')
+
 "set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
@@ -68,9 +99,9 @@ Plugin 'terryma/vim-multiple-cursors'
 "Plugin 'junegunn/fzf.vim'
 "map ; :Files<C-P>
 
-"Plugin 'anntzer/vim-cython'
-"Plugin 'lambdalisue/vim-cython-syntax'
-"Plugin 'tshirtman/vim-cython'
+Plugin 'anntzer/vim-cython'
+Plugin 'lambdalisue/vim-cython-syntax'
+" Plugin 'tshirtman/vim-cython'
 
 
 
